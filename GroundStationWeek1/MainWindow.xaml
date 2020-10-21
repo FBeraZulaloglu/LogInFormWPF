@@ -1,0 +1,172 @@
+﻿<Window x:Class="GroundStationWeek1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroundStationWeek1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1080" Width="1920" MinHeight="450" MinWidth="800" WindowState="Maximized" Closed="ProgramClosed">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="50" Foreground="#FF0C026E" Margin="0 3 0 0" >YENİ NESİL ARGE</Label>
+        <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="40" Foreground="#FF1F4EB4" Margin="0 55 0 0">KAYIT FORMU</Label>
+        <Border BorderBrush="#FF128BA2" BorderThickness="5" MaxHeight="350"  MaxWidth="350" Background="#FFBFD1DE" Margin="0,68,0,0">
+            <StackPanel  MinHeight="100" MinWidth="100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock TextAlignment="Center" Padding="2" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Top" >AD SOYAD</TextBlock>
+                <TextBox x:Name="adSoyad" Style="{StaticResource textStyle}" Height="23" TextWrapping="Wrap" Text="" IsEnabled="True"
+                     HorizontalAlignment="Center" VerticalAlignment="Top" MinWidth="240" Margin="0 10 0 0"/>
+
+                <TextBlock TextAlignment="Center" Padding="2" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" >Öğrenci Numarası</TextBlock>
+                <TextBox x:Name="no" Style="{StaticResource textStyle}"  Height="23" TextWrapping="Wrap" Text=""
+                     Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="240"/>
+
+                <TextBlock TextAlignment="Center" Padding="2" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" >İlgi Alanı</TextBlock>
+                <TextBox x:Name="ilgiAlanı" Style="{StaticResource textStyle}"  Height="23" TextWrapping="Wrap" Text=""
+                     Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="240"/>
+
+                <ComboBox x:Name="classes"  Text="Sınıflar" IsEditable="True"
+                          Margin="0,25,0,0" IsReadOnly="True" VerticalAlignment="Bottom" MinHeight="24"
+                          HorizontalAlignment="Center" MinWidth="240">
+                    <ComboBoxItem Content="Hazırlık"></ComboBoxItem>
+                    <ComboBoxItem Content="1. sınıf"></ComboBoxItem>
+                    <ComboBoxItem Content="2. sınıf"></ComboBoxItem>
+                    <ComboBoxItem Content="3. sınıf"></ComboBoxItem>
+                    <ComboBoxItem Content="4. sınıf"></ComboBoxItem>
+                    <ComboBoxItem Content="Mezun"></ComboBoxItem>
+                </ComboBox>
+                <Button x:Name="kayıtYap" Style="{StaticResource buttonStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                          MinHeight="35" MinWidth="75"  Click="kayıtYap_Click" Content="KAYIT OL" Margin="160 24 0 0"/>
+
+            </StackPanel>
+        </Border>
+
+
+        <ListView x:Name="studentTable" Grid.Column="2" ItemsSource="{Binding students}">
+            <ListView.View>
+                <GridView >
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style x:Name="headerStyle" TargetType="GridViewColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn x:Name="name" Header="AD SOYAD"  Width="200"  DisplayMemberBinding="{Binding name}"/>
+                    <GridViewColumn x:Name="number" Header="Numara" Width="150"  DisplayMemberBinding="{Binding number}"/>
+                    <GridViewColumn x:Name="class" Header="SINIF"  Width="200" DisplayMemberBinding="{Binding studentClass}"/>
+                    <GridViewColumn x:Name="ilgiAlan" Header="İLGİ ALANI"  Width="200" DisplayMemberBinding="{Binding ilgiAlanı}"/>
+                    <GridViewColumn x:Name="icon" Header="ICON" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Name="MyImage" Source="{Binding iconSource}" Width="30" Height="30" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ComboBox x:Name="iconComboBox" Grid.Row="1" VerticalAlignment="Top" 
+                  HorizontalAlignment="Left" Margin="15,5.4,0,0" IsEditable="True" IsEnabled="True" 
+                  Text="İkon Seç" ItemsSource="{Binding ElementName=logo2, Path=Source}" 
+                  SelectionChanged="iconComboBox_SelectionChanged" MinHeight="35" MinWidth="100" Width="164">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="#FF181818" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+
+            <ComboBoxItem  
+                      Background="#FF3F3939" Foreground="#FFD9D9D9" FontFamily="Verdana" 
+                      FontSize="12" FontWeight="Bold" DataContext="{Binding ElementName=logo1, Path=Source}">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="logo1" Source="photos\argeLogo.jpg" Height="30"></Image>
+                    <TextBlock Text="Yeni Nesil Arge"></TextBlock>
+                </StackPanel>
+            </ComboBoxItem>
+
+            <ComboBoxItem  
+                      Background="#FF3F3939" Foreground="#FFD9D9D9" FontFamily="Verdana" 
+                      FontSize="12" FontWeight="Bold">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="logo2" Source="photos\computerLogo.jpg" Height="30"></Image>
+                    <TextBlock Text="Bilgisayar Müh."></TextBlock>
+                </StackPanel>
+            </ComboBoxItem>
+
+            <ComboBoxItem  
+                      Background="#FF3F3939" Foreground="#FFD9D9D9" FontFamily="Verdana" 
+                      FontSize="12" FontWeight="Bold">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="logo3" Source="photos\mechanicLogo.jpg" Height="30"></Image>
+                    <TextBlock Text="Makine Müh."></TextBlock>
+                </StackPanel>
+            </ComboBoxItem>
+
+            <ComboBoxItem  
+                      Background="#FF3F3939" Foreground="#FFD9D9D9" FontFamily="Verdana" 
+                      FontSize="12" FontWeight="Bold">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="logo4" Source="photos\electricalLogo.jpg" Height="30"></Image>
+                    <TextBlock Text="Elektrik Müh."></TextBlock>
+                </StackPanel>
+            </ComboBoxItem>
+        </ComboBox>
+
+        <Button Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                MinHeight="35" MinWidth="100" Margin="8" Click="Button_Click"
+                >İkon Belirle</Button>
+
+        <Border Grid.Row="1" BorderBrush="#FF484748" BorderThickness="5" Margin="8,50,8,8" CornerRadius="10" >
+            <Image x:Name="imagePreview" Source="{Binding ElementName=iconComboBox, Path=DataContext}" Stretch="Fill"  ></Image>
+        </Border>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border  BorderThickness="3" BorderBrush="#FF0A0A0A" Background="AntiqueWhite" CornerRadius="3"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0 0"
+                       Grid.ColumnSpan="2"  Margin="5 0 5 0">
+                <TextBlock Style="{StaticResource labelStyle}" TextAlignment="Center" LineHeight="48" FontSize="30">ÖĞRENCİ DAĞILIMLARI</TextBlock>
+            </Border>
+
+            <Button x:Name="writeToCSV" Grid.Column="2" Margin="0 5 0 5" Style="{StaticResource buttonStyle}" Background="#FF080808" Click="writeToCSV_Click">Öğrencileri Yazdır</Button>
+
+            <TextBlock Grid.Row="1" Style="{StaticResource labelStyle}" VerticalAlignment="Top" TextAlignment="Center" Margin="2 10 2 0">HAZRILIK</TextBlock>
+            <TextBox x:Name="hazirlik" Grid.Row="1" VerticalAlignment="Center" Style="{StaticResource studentNumber}" Margin="0 28 0 0" MinHeight="30"></TextBox>
+
+            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource labelStyle}" VerticalAlignment="Top" TextAlignment="Center" Margin="2 10 2 0">1.Sınıf</TextBlock>
+            <TextBox x:Name="sinif1" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource studentNumber}" Margin="0 28 0 0" MinHeight="30"></TextBox>
+
+            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource labelStyle}" VerticalAlignment="Top" TextAlignment="Center" Margin="2 10 2 0">2.sınıf</TextBlock>
+            <TextBox x:Name="sinif2" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource studentNumber}" Margin="0 28 0 0" MinHeight="30"></TextBox>
+
+            <TextBlock Grid.Row="2" Style="{StaticResource labelStyle}" VerticalAlignment="Top" TextAlignment="Center" Margin="2 10 2 0">3.sınıf</TextBlock>
+            <TextBox x:Name="sinif3" Grid.Row="2" VerticalAlignment="Center" Style="{StaticResource studentNumber}" Margin="0 28 0 0" MinHeight="30"></TextBox>
+
+            <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource labelStyle}" VerticalAlignment="Top" TextAlignment="Center" Margin="2 10 2 0">4.sınıf</TextBlock>
+            <TextBox x:Name="sinif4" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource studentNumber}" Margin="0 28 0 0" MinHeight="30"></TextBox>
+
+            <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource labelStyle}" VerticalAlignment="Top" TextAlignment="Center" Margin="2 10 2 0">Mezun</TextBlock>
+            <TextBox x:Name="mezun" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource studentNumber}" Margin="0 28 0 0" MinHeight="30"></TextBox>
+
+        </Grid>
+
+    </Grid>
+</Window>
